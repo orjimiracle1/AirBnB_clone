@@ -18,32 +18,29 @@ class BaseModel:
             - **kwargs: dict of key-values arguments
         """
 
-        if kwargs is not None and kwargs != {}:
-            for key in kwargs:
-                if key == "created_at":
-                    self.__dict__["created_at"] = datetime.strptime(
-                        kwargs["created_at"], "%Y-%m-%dT%H:%M:%S.%f")
-                elif key == "updated_at":
-                    self.__dict__["updated_at"] = datetime.strptime(
-                        kwargs["updated_at"], "%Y-%m-%dT%H:%M:%S.%f")
+        if bool(kwargs):
+            date_format =  "%Y-%m-%dT%H:%M:%S.%f"
+            for key,value in kwargs.items():
+                if key == "__class__":
+                    continue
+                if (key == "created_at" or key == "updated_at"):
+                    self.__dict__[key] = datetime.strptime(value, date_format)
                 else:
-                    self.__dict__[key] = kwargs[key]
+                    self.__dict__[key] = value
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.created_at = self.updated_at = datetime.today()
             storage.new(self)
 
     def __str__(self):
         """Returns official string representation"""
 
-        return "[{}] ({}) {}".\
-            format(type(self).__name__, self.id, self.__dict__)
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
 
     def save(self):
         """updates the public instance attribute updated_at"""
 
-        self.updated_at = datetime.now()
+        self.updated_at = datetime.today()
         storage.save()
 
     def to_dict(self):
