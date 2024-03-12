@@ -35,7 +35,7 @@ class FileStorage():
         with open(FileStorage.__file_path, 'w', encoding='utf-8') as f:
             all_dict = {key: obj.to_dict() for key, obj in 
                         FileStorage.__objects.items()}
-            json.dump(all_dict, f, indent=2)
+            json.dump(all_dict, f)
 
     def reload(self):
         """Reload file"""
