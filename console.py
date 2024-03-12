@@ -11,7 +11,7 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
 
     def do_quit(self, arg):
-        """Quit console"""
+        """Quit command to exit the program."""
         exit()
     
     def do_EOF(self, arg):
@@ -22,6 +22,12 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """Do nothing"""
         pass
+    
+    def do_create(self, arg):
+        if len(arg) == 0:
+            print("** class name missing **")
+        
+        
 
 if __name__ == '__main__':
     HBNBCommand().cmdloop()
