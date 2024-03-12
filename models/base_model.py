@@ -7,7 +7,6 @@ from datetime import datetime
 
 
 class BaseModel:
-
     """Class from which all other classes will inherit"""
 
     def __init__(self, *args, **kwargs):
@@ -32,11 +31,6 @@ class BaseModel:
         else:
             models.storage.new(self)
 
-    def __str__(self):
-        """Returns official string representation"""
-
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
-
     def save(self):
         """updates the public instance attribute updated_at"""
 
@@ -51,3 +45,7 @@ class BaseModel:
         my_dict["created_at"] = my_dict["created_at"].isoformat()
         my_dict["updated_at"] = my_dict["updated_at"].isoformat()
         return my_dict
+
+    def __str__(self):
+        """Returns official string representation"""
+        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
