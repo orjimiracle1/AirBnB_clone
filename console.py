@@ -87,18 +87,6 @@ class HBNBCommand(cmd.Cmd):
         print()
         return True
 
-    def do_create(self, arg):
-        """
-        Initiakize class instance and print id.
-        """
-        args_n = parse(arg)
-        if len(args_n) == 0:
-            print("** class name missing **")
-        elif args_n[0] not in HBNBCommand.__classes:
-            print("** class doesn't exist **")
-        else:
-            print(eval(args_n[0])().id)
-            storage.save()
 
     def do_show(self, arg):
         """
@@ -117,6 +105,19 @@ class HBNBCommand(cmd.Cmd):
         else:
             print(objs_dict["{}.{}".format(args_n[0], args_n[1])])
 
+    def do_create(self, arg):
+        """
+        Initiakize class instance and print id.
+        """
+        args_n = parse(arg)
+        if len(args_n) == 0:
+            print("** class name missing **")
+        elif args_n[0] not in HBNBCommand.__classes:
+            print("** class doesn't exist **")
+        else:
+            print(eval(args_n[0])().id)
+            storage.save()
+
     def do_destroy(self, arg):
         """Delete class instance based on id given"""
         args_n = parse(arg)
@@ -132,6 +133,17 @@ class HBNBCommand(cmd.Cmd):
         else:
             del objs_dict["{}.{}".format(args_n[0], args_n[1])]
             storage.save()
+
+    def do_count(self, arg):
+        """
+        Instance head count, get total
+        """
+        args_n = parse(arg)
+        count = 0
+        for value in storage.all().values():
+            if args_n[0] == value.__class__.__name__:
+                count += 1
+        print(count)
 
     def do_all(self, arg):
         """
@@ -149,16 +161,6 @@ class HBNBCommand(cmd.Cmd):
                     obj_list.append(obj.__str__())
             print(obj_list)
 
-    def do_count(self, arg):
-        """
-        Instance head count, get total
-        """
-        args_n = parse(arg)
-        count = 0
-        for value in storage.all().values():
-            if args_n[0] == value.__class__.__name__:
-                count += 1
-        print(count)
 
     def do_update(self, arg):
         """
