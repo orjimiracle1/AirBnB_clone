@@ -2,12 +2,14 @@
 """ Defines the basemodel classs"""
 import uuid
 from datetime import datetime
+import models
+
 class BaseModel:
     """
         BaseModel class holds all common attributes/
         methods for other classes 
     """
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         """Instane contructor"""
         tfmt = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs:
@@ -19,7 +21,7 @@ class BaseModel:
         else:
             self.id = str(uuid.uuid4())
             self.created_at = self.updated_at = datetime.today()
-            
+            models.storage.new(self)
 
     def __str__(self) -> str:
         """String reprsentation of class declaration"""
@@ -30,6 +32,7 @@ class BaseModel:
             with the current datetime 
         """
         self.updated_at = datetime.today()
+        models.storage.save()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values """
