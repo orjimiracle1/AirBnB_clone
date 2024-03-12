@@ -2,6 +2,34 @@
 """Defines the cmd console."""
 import cmd
 import models
+import re
+from models.base_model import BaseModel
+from models.city import City
+from models.state import State
+from models.place import Place
+from models.user import User
+from models.review import Review
+from models.amenity import Amenity
+from shlex import split
+
+def parse(arg):
+    """Defines the prasing function for command processing"""
+    curl_bracket = re.search(r"\{(.*?)\}", arg)
+    brackets = re.search(r"\[(.*?)\]", arg)
+    if curl_bracket is None:
+        if brackets is None:
+            return [i.strip(",") for i in split(arg)]
+        else:
+            lex = split(arg[:brackets.span()[0]])
+            ret = [i.strip(",") for i in lex]
+            ret.append(brackets.group())
+            return ret
+    else:
+        lex = split(arg[:curl_bracket.span()[0]])
+        ret = [i.strip(",") for i in lex]
+        ret.append(curl_bracket.group())
+        return ret
+
 
 class HBNBCommand(cmd.Cmd):
     """Defines the command interpreter.
