@@ -11,7 +11,7 @@ class BaseModel:
         """Instane contructor"""
         self.id = str(uuid.uuid4())
         self.created_at = datetime.today()
-        self.update_at = datetime.today()
+        self.updated_at = datetime.today()
 
     def __str__(self) -> str:
         """String reprsentation of class declaration"""
@@ -21,7 +21,7 @@ class BaseModel:
         """ updates the public instance attribute updated_at 
             with the current datetime 
         """
-        self.update_at = datetime.today()
+        self.updated_at = datetime.today()
 
     def to_dict(self):
         """returns a dictionary containing all keys/values """
