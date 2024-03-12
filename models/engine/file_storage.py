@@ -11,7 +11,7 @@ class FileStorage():
         Args:
 
     """
-    __file_path = ""
+    __file_path = "file.json"
     __objects = {}
 
     def all(self):
