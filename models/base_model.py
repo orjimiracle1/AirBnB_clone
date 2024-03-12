@@ -10,16 +10,16 @@ class BaseModel:
     def __init__(self, **kwargs):
         """Instane contructor"""
         tfmt = "%Y-%m-%dT%H:%M:%S.%f"
-        if bool(kwargs):
+        if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(value, tfmt)
                 else:
-                    self.__dict__[key] = v
+                    self.__dict__[key] = value
         else:
             self.id = str(uuid.uuid4())
-            self.created_at = datetime.today()
-            self.updated_at = datetime.today()
+            self.created_at = self.updated_at = datetime.today()
+            
 
     def __str__(self) -> str:
         """String reprsentation of class declaration"""
