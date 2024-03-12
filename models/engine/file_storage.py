@@ -47,15 +47,14 @@ class FileStorage:
 
     def reload(self):
         """Reloads the stored objects"""
-        try:
-            with open(FileStorage.__file_path) as f:
-                obj_dict = json.load(f)
-                for o in obj_dict.values():
-                    cls_name = o["__class__"]
-                    del o["__class__"]
-                    self.new(eval(cls_name)(**o))
-        except FileNotFoundError:
+        if not os.path.isfile(FileStorage.__file_path):
             return
+        with open(FileStorage.__file_path, "r", encoding="utf-8") as f:
+            obj_dict = json.load(f)
+            obj_dict = {k: self.classes()[v["__class__"]](**v)
+                        for k, v in obj_dict.items()}
+            # TODO: should this overwrite or insert?
+            FileStorage.__objects = obj_dict
 
     def attributes(self):
         """Returns the valid attributes and their types for classname"""
