@@ -16,11 +16,9 @@ class BaseModel:
             - *args: list of arguments
             - **kwargs: dict of key-values arguments
         """
-        date_format =  "%Y-%m-%dT%H:%M:%S.%f"
-        self.id = str(uuid.uuid4())
-        self.created_at = self.updated_at = datetime.today()
 
         if bool(kwargs):
+            date_format =  "%Y-%m-%dT%H:%M:%S.%f"
             for key,value in kwargs.items():
                 if key == "__class__":
                     continue
@@ -29,11 +27,12 @@ class BaseModel:
                 else:
                     self.__dict__[key] = value
         else:
+            self.id = str(uuid.uuid4())
+            self.created_at = self.updated_at = datetime.today()
             models.storage.new(self)
 
     def save(self):
         """updates the public instance attribute updated_at"""
-
         self.updated_at = datetime.today()
         models.storage.save()
 
@@ -41,9 +40,9 @@ class BaseModel:
         """returns a dictionary containing all keys/values of __dict__"""
 
         my_dict = self.__dict__.copy()
-        my_dict["__class__"] = type(self).__name__
         my_dict["created_at"] = my_dict["created_at"].isoformat()
         my_dict["updated_at"] = my_dict["updated_at"].isoformat()
+        my_dict["__class__"] = self.__class__.__name__
         return my_dict
 
     def __str__(self):
