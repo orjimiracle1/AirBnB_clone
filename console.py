@@ -16,12 +16,12 @@ class HBNBCommand(cmd.Cmd):
     
     def do_EOF(self, arg):
         """EOF to exit console"""
-        print("")
+        print()
         return True
     
     def emptyline(self):
         """Do nothing"""
         pass
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     HBNBCommand().cmdloop()
