@@ -553,7 +553,7 @@ EOF  all  count  create  destroy  help  quit  show  update
             for attr, value in self.test_random_attributes.items():
                 if type(value) is not str:
                     pass
-                quotes = (type(value) == str)
+                quotes = isinstance(value, str)
                 self.help_test_update(classname, uid, attr,
                                       value, quotes, False)
                 self.help_test_update(classname, uid, attr,
